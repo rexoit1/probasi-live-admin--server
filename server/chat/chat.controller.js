@@ -73,7 +73,7 @@ exports.store = async (req, res) => {
       receiverUser = chatTopic.senderUser;
       senderUser = chatTopic.receiverUser;
     }
-
+    
     if (receiverUser && !receiverUser.isBlock && receiverUser.notification.message) {
       const payload = {
         to: receiverUser.fcmToken,

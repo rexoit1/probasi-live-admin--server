@@ -418,9 +418,8 @@ exports.login = async (req, res) => {
         message: "Oops! Email doesn't exist.",
       });
     }
-    console.log(req.body.password);
     const isPassword = bcrypt.compareSync(req.body.password, admin.password);
-    console.log(isPassword);
+    // console.log(isPassword);
     if (!isPassword) {
       return res.status(200).json({
         status: false,

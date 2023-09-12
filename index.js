@@ -148,6 +148,12 @@ app.use("/report", ReportRoute);
 const StickerRoute = require("./server/sticker/sticker.route");
 app.use("/sticker", StickerRoute);
 
+// group route
+const GroupchatRouter = require("./server/groupchat/groupchat.route")
+app.use("/group",GroupchatRouter)
+
+app.use("/sticker", StickerRoute);
+
 // function _0x5941(_0x16e7b2, _0x4d2766) {
 //   const _0x496218 = _0x5e1c();
 //   return (
@@ -265,8 +271,8 @@ io.on("connect", (socket) => {
     liveHostRoom = live.liveHostRoom;
   }
 
-  console.log("Live", live);
-  console.log("Live Room excet before Live", liveRoom);
+  // console.log("Live", live);
+  // console.log("Live Room excet before Live", liveRoom);
 
   // chatRoom for chat
   const { chatRoom } = socket.handshake.query;
@@ -292,19 +298,19 @@ io.on("connect", (socket) => {
 
   // live streaming socket events
   socket.on("liveStreaming", (data) => {
-    console.log("liveStreaming", data);
-    console.log("LiveRoom liveStreaming ", liveRoom);
+    // console.log("liveStreaming", data);
+    // console.log("LiveRoom liveStreaming ", liveRoom);
 
     io.in(liveRoom).emit("liveStreaming", data);
   });
   socket.on("simpleFilter", (data) => {
-    console.log("simpleFilter", data);
-    console.log("LiveRoom simpleFilter ", liveRoom);
+    // console.log("simpleFilter", data);
+    // console.log("LiveRoom simpleFilter ", liveRoom);
     io.in(liveRoom).emit("simpleFilter", data);
   });
   socket.on("animatedFilter", (data) => {
-    console.log("animatedFilter", data);
-    console.log("LiveRoom animatedFilter ", liveRoom);
+    // console.log("animatedFilter", data);
+    // console.log("LiveRoom animatedFilter ", liveRoom);
     io.in(liveRoom).emit("animatedFilter", data);
   });
   socket.on("gif", (data) => {
@@ -314,8 +320,8 @@ io.on("connect", (socket) => {
   });
   socket.on("comment", async (data) => {
     // const data = JSON.parse(data_);
-    console.log("comment", data);
-    console.log("LiveRoom comment ", liveRoom);
+    // console.log("comment", data);
+    // console.log("LiveRoom comment ", liveRoom);
     const liveStreamingHistory = await LiveStreamingHistory.findById(
       data.liveStreamingId
     );
@@ -329,8 +335,8 @@ io.on("connect", (socket) => {
   });
   // live user send gift during live streaming [put entry on outgoing collection]
   socket.on("liveUserGift", async (data) => {
-    console.log("liveUserGift", data);
-    console.log("LiveRoom liveUserGift ", liveRoom);
+    // console.log("liveUserGift", data);
+    // console.log("LiveRoom liveUserGift ", liveRoom);
 
     const user = await User.findById(data.userId).populate("level");
     console.log("liveUserGift user", user);
@@ -532,6 +538,12 @@ io.on("connect", (socket) => {
     console.log("pkAnswer", data);
     console.log("pkAnswer mainHostId", data.MAIN_HOST_ID);
     io.in(data.MAIN_HOST_ID).emit("pkAnswer", data);
+  });
+
+  socket.on("sessionInitialized", async (data) => {
+    console.log("sessionInitialized", data);
+    console.log("sessionInitialized mainHostId", data.MAIN_HOST_ID);
+    io.in(data.MAIN_HOST_ID).emit("sessionInitialized", data);
   });
 
   // create chat
