@@ -540,11 +540,25 @@ io.on("connect", (socket) => {
     io.in(data.MAIN_HOST_ID).emit("pkAnswer", data);
   });
 
+  // inviteFriend  event crate
+  socket.on("inviteFriend ", async (data) => {
+    console.log("inviteFriend ", data);
+    console.log("inviteFriend  mainHostId", data.MAIN_HOST_ID);
+    io.in(data.MAIN_HOST_ID).emit("inviteFriend ", data);
+  });
+  socket.on("inviteFriendCallback ", async (data) => {
+    console.log("inviteFriendCallback ", data);
+    console.log("inviteFriendCallback  mainHostId", data.MAIN_HOST_ID);
+    io.in(data.MAIN_HOST_ID).emit("inviteFriendCallback ", data);
+  });
+
   socket.on("sessionInitialized", async (data) => {
     console.log("sessionInitialized", data);
     console.log("sessionInitialized mainHostId", data.MAIN_HOST_ID);
     io.in(data.MAIN_HOST_ID).emit("sessionInitialized", data);
   });
+
+
 
   // create chat
   socket.on("chat", async (data) => {
