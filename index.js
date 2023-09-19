@@ -541,16 +541,20 @@ io.on("connect", (socket) => {
   });
 
   // inviteFriend  event crate
-  socket.on("inviteFriend ", async (data) => {
-    console.log("inviteFriend ", data);
+  socket.on("inviteFriend", async (data) => {
+    console.log("inviteFriend", data);
     console.log("inviteFriend  mainHostId", data.MAIN_HOST_ID);
-    io.in(data.MAIN_HOST_ID).emit("inviteFriend ", data);
+    io.in(data.MAIN_HOST_ID).emit("inviteFriend", data);
   });
-  socket.on("inviteFriendCallback ", async (data) => {
-    console.log("inviteFriendCallback ", data);
-    console.log("inviteFriendCallback  mainHostId", data.MAIN_HOST_ID);
-    io.in(data.MAIN_HOST_ID).emit("inviteFriendCallback ", data);
+
+  socket.on("inviteFriendCallback", async (data) => {
+    // console.log("inviteFriendCallback", data);
+    // console.log("inviteFriendCallback  mainHostId", data.MAIN_HOST_ID);
+    console.log("hello", data)
+    io.in(data.MAIN_HOST_ID).emit("inviteFriendCallback",  data);
   });
+
+   // create sessionInitialized
 
   socket.on("sessionInitialized", async (data) => {
     console.log("sessionInitialized", data);
