@@ -12,8 +12,8 @@ var fcm = new FCM(config.SERVER_KEY);
 //like or unlike post and video
 exports.likeUnlike = async (req, res, next) => {
   try {
-    console.log("postId", req.body.postId);
-    console.log("userId", req.body.userId);
+    // console.log("postId", req.body.postId);
+    // console.log("userId", req.body.userId);
     if (!req.body.userId)
       return res.status(200).json({
         status: false,
@@ -34,7 +34,6 @@ exports.likeUnlike = async (req, res, next) => {
         message: "User does not Exist!",
       });
 
-    console.log("User", user);
 
     //like or unlike post
     if (req.body.postId) {
@@ -47,8 +46,6 @@ exports.likeUnlike = async (req, res, next) => {
           status: false,
           message: "Post does not Exist!",
         });
-
-      console.log("Post", post);
 
       const likeExist = await Favorite.find({
         user: user._id,

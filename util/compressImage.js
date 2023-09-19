@@ -5,6 +5,7 @@ const deleteFile = require("./deleteFile");
 exports.compressImage = (file) => {
   if (file.mimetype !== "image/webp") {
     const tempFilename = Date.now() + "_c_" + `${file.originalname}`;
+                   
     sharp(file.path)
       .jpeg({
         quality: 50
