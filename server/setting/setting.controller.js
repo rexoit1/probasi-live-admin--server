@@ -73,6 +73,12 @@ exports.update = async (req, res) => {
     setting.googlePlayKey = req.body.googlePlayKey
       ? req.body.googlePlayKey
       : setting.googlePlayKey;
+    setting.bkashPersonal = req.body.bkashPersonal
+      ? req.body.bkashPersonal
+      : setting.bkashPersonal;
+    setting.bkashAgent = req.body.bkashAgent
+      ? req.body.bkashAgent
+      : setting.bkashAgent;
     setting.stripePublishableKey = req.body.stripePublishableKey
       ? req.body.stripePublishableKey
       : setting.stripePublishableKey;
