@@ -7,6 +7,7 @@ const VIPPlanSchema = new mongoose.Schema(
     validityType: String,
     dollar: Number,
     rupee: Number,
+    daimond: Number,
     tag: String,
     productKey: String,
     isAutoRenew: { type: Boolean, default: false },

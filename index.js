@@ -534,11 +534,7 @@ io.on("connect", (socket) => {
     io.in(data.GUEST_HOST_ID).emit("pkRequest", data);
   });
 
-  socket.on("pkAnswer", async (data) => {
-    console.log("pkAnswer", data);
-    console.log("pkAnswer mainHostId", data.MAIN_HOST_ID);
-    io.in(data.MAIN_HOST_ID).emit("pkAnswer", data);
-  });
+
 
   // inviteFriend  event crate
   socket.on("inviteFriend", async (data) => {
@@ -552,6 +548,18 @@ io.on("connect", (socket) => {
     // console.log("inviteFriendCallback  mainHostId", data.MAIN_HOST_ID);
     console.log("hello", data)
     io.in(data.MAIN_HOST_ID).emit("inviteFriendCallback",  data);
+  });
+
+
+  socket.on("pkAnswer", async (data) => {
+    // console.log("pkAnswer", data);
+    // console.log("pkAnswer mainHostId", data.MAIN_HOST_ID);
+    io.in(data.MAIN_HOST_ID).emit("pkAnswer", data);
+  });
+
+
+  socket.on("liveType", async (data) => {
+    io.in(data.MAIN_HOST_ID).emit("liveType", data);
   });
 
    // create sessionInitialized
@@ -695,6 +703,7 @@ io.on("connect", (socket) => {
     console.log("call Cancelled call Room", callRoom);
     io.in(callRoom).emit("callCancel", data);
   });
+
 
   socket.on("disconnect", async () => {
     console.log("disconnect User Done LiveRoom", liveRoom);

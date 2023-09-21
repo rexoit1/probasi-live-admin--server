@@ -36,6 +36,7 @@ exports.store = async (req, res) => {
       !req.body.validityType ||
       !req.body.dollar ||
       !req.body.rupee ||
+      !req.body.daimond ||
       !req.body.productKey
     )
       return res
@@ -49,6 +50,7 @@ exports.store = async (req, res) => {
     vipPlan.validityType = req.body.validityType;
     vipPlan.dollar = req.body.dollar;
     vipPlan.rupee = req.body.rupee;
+    vipPlan.daimond = req.body.daimond;
     vipPlan.tag = req.body.tag;
     vipPlan.productKey = req.body.productKey;
 
@@ -82,6 +84,7 @@ exports.update = async (req, res) => {
     vipPlan.validityType = req.body.validityType;
     vipPlan.dollar = req.body.dollar;
     vipPlan.rupee = req.body.rupee;
+    vipPlan.daimond = req.body.daimond;
     vipPlan.tag = req.body.tag;
     vipPlan.productKey = req.body.productKey;
 
@@ -394,6 +397,7 @@ exports.purchaseHistory = async (req, res) => {
           name: "$user.name",
           dollar: "$plan.dollar",
           rupee: "$plan.rupee",
+          daimond: "$plan.daimond",
           validity: "$plan.validity",
           validityType: "$plan.validityType",
           purchaseDate: "$date",
