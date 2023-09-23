@@ -551,6 +551,11 @@ io.on("connect", (socket) => {
   });
 
 
+  socket.on("requestToJoin", async (data) => {
+    // console.log("pkAnswer", data);
+    // console.log("pkAnswer mainHostId", data.MAIN_HOST_ID);
+    io.in(data.MAIN_HOST_ID).emit("requestToJoin", data);
+  });
   socket.on("pkAnswer", async (data) => {
     // console.log("pkAnswer", data);
     // console.log("pkAnswer mainHostId", data.MAIN_HOST_ID);
