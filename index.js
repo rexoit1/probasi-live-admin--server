@@ -333,13 +333,13 @@ io.on("connect", (socket) => {
     }
     io.in(liveRoom).emit("comment", data);
   });
-  // live user send gift during live streaming [put entry on outgoing collection]
+  // live user send gift during live streaming [put entry on outgoing collectioen]
   socket.on("liveUserGift", async (data) => {
     // console.log("liveUserGift", data);
     // console.log("LiveRoom liveUserGift ", liveRoom);
 
     const user = await User.findById(data.userId).populate("level");
-    console.log("liveUserGift user", user);
+    console.log("liveUserGift user", user); 
     if (user && data.coin <= user.diamond) {
       user.diamond -= data.coin;
       user.spentCoin += data.coin;
@@ -360,24 +360,27 @@ io.on("connect", (socket) => {
   });
   // normal user send gift during live streaming [put entry on income and outgoing collection]
   socket.on("normalUserGift", async (data) => {
-    console.log("normalUserGift", data);
-    console.log("LiveRoom normalUserGift ", liveRoom);
 
     const senderUser = await User.findById(data.senderUserId).populate("level");
     const receiverUser = await User.findById(data.receiverUserId).populate(
       "level"
     );
+    const userAud = await User.findById(data.giftedToUser).populate("level")
+
+      
+
+    // console.log("gifted user id",user)
 
     const liveStreamingHistory = await LiveStreamingHistory.findById(
       data.liveStreamingId
     );
 
-    if (senderUser && receiverUser && data.coin <= senderUser.diamond) {
+    if (senderUser && receiverUser && data.coin || userAud <= senderUser.diamond) {
       senderUser.diamond -= data.coin;
       senderUser.spentCoin += data.coin;
       await senderUser.save();
 
-      console.log("senderUser in Gift send", senderUser);
+      // console.log("pro.xyz", data.giftedToUser)
 
       const outgoing = new Wallet();
       outgoing.userId = senderUser._id;
@@ -389,15 +392,16 @@ io.on("connect", (socket) => {
       await outgoing.save();
 
       receiverUser.rCoin += data.coin;
+
       await receiverUser.save();
 
       const liveUser = await LiveUser.findOne({ liveUserId: receiverUser._id });
       liveUser.rCoin += data.coin;
       await liveUser.save();
 
-      console.log("updated liveUser in gift send", liveUser);
+      // console.log("updated liveUser in gift send", liveUser);
 
-      console.log("receiverUser in Gift send", receiverUser);
+      // console.log("receiverUser in Gift send", receiverUser);
 
       const income = new Wallet();
       income.userId = receiverUser._id;
@@ -414,7 +418,7 @@ io.on("connect", (socket) => {
         await liveStreamingHistory.save();
       }
 
-      console.log("gift response in position 2", senderUser);
+      // console.log("gift response in position 2", senderUser);
       io.in(liveRoom).emit("gift", data, senderUser, receiverUser);
     } else {
       if (liveStreamingHistory) {
@@ -714,7 +718,7 @@ io.on("connect", (socket) => {
     console.log("disconnect User Done LiveRoom", liveRoom);
     console.log("disconnect User Done LiveHostRoom", liveHostRoom);
     const liveStreamingHistory = await LiveStreamingHistory.findById(liveRoom);
-    console.log("liveStreamingHistory", liveStreamingHistory);
+    // console.log("liveStreamingHistory", liveStreamingHistory);
     if (liveStreamingHistory) {
       liveStreamingHistory.endTime = new Date().toLocaleString();
       await liveStreamingHistory.save();
