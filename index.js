@@ -479,7 +479,7 @@ io.on("connect", (socket) => {
       liveStreamingHistory.user = _liveUser.view.length;
       liveStreamingHistory.endTime = new Date().toLocaleString();
       await liveStreamingHistory.save();
-      io.in(liveRoom).emit("view", _liveUser.view);
+      // io.in(liveRoom).emit("view", _liveUser.view);
     }
   });
   socket.on("lessView", async (data) => {
@@ -493,7 +493,7 @@ io.on("connect", (socket) => {
       { _id: data.liveUserMongoId, "view.userId": data.userId },
       {
         $set: {
-          "view.$.isAdd": false,
+          "view.$.isAdd": false
         },
       }
     );
