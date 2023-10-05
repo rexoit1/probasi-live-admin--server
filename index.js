@@ -493,7 +493,7 @@ io.on("connect", (socket) => {
       { _id: data.liveUserMongoId, "view.userId": data.userId },
       {
         $set: {
-          "view.$.isAdd": false
+          "view.$.isAdd": true
         },
       }
     );
