@@ -154,6 +154,11 @@ app.use("/group",GroupchatRouter)
 
 app.use("/sticker", StickerRoute);
 
+const TransecPending = require("./server/transecPending/transecPending.route")
+app.use("/transecPending", TransecPending)
+
+const TransecWithdraw = require("./server/transecWithdraw/transecWithdraw.route")
+app.use("/transecWithdraw", TransecWithdraw)
 // function _0x5941(_0x16e7b2, _0x4d2766) {
 //   const _0x496218 = _0x5e1c();
 //   return (
@@ -260,7 +265,7 @@ io.on("connect", (socket) => {
   // this room for getting end time of live streaming
   let liveHostRoom;
 
-  console.log("socket Query", socket.handshake.query);
+  // console.log("socket Query", socket.handshake.query);
 
   const live = socket.handshake.query.obj
     ? JSON.parse(socket.handshake.query.obj)
@@ -276,11 +281,11 @@ io.on("connect", (socket) => {
 
   // chatRoom for chat
   const { chatRoom } = socket.handshake.query;
-  console.log("chat room", chatRoom);
+  // console.log("chat room", chatRoom);
 
   // callRoom, globalRoom and videoCallRoom for one to one call
   const { callRoom } = socket.handshake.query;
-  console.log("call room", callRoom);
+  // console.log("call room", callRoom);
   // this room for call request to user
   const { globalRoom } = socket.handshake.query;
   // this room is used when two user connect successfully
@@ -314,8 +319,8 @@ io.on("connect", (socket) => {
     io.in(liveRoom).emit("animatedFilter", data);
   });
   socket.on("gif", (data) => {
-    console.log("gif", data);
-    console.log("LiveRoom gif ", liveRoom);
+    // console.log("gif", data);
+    // console.log("LiveRoom gif ", liveRoom);
     io.in(liveRoom).emit("gif", data);
   });
   socket.on("comment", async (data) => {
@@ -326,7 +331,7 @@ io.on("connect", (socket) => {
       data.liveStreamingId
     );
 
-    console.log("liveStreamingHistory", liveStreamingHistory);
+    // console.log("liveStreamingHistory", liveStreamingHistory);
     if (liveStreamingHistory) {
       liveStreamingHistory.comments += 1;
       await liveStreamingHistory.save();
@@ -339,7 +344,7 @@ io.on("connect", (socket) => {
     // console.log("LiveRoom liveUserGift ", liveRoom);
 
     const user = await User.findById(data.userId).populate("level");
-    console.log("liveUserGift user", user); 
+    // console.log("liveUserGift user", user); 
     if (user && data.coin <= user.diamond) {
       user.diamond -= data.coin;
       user.spentCoin += data.coin;
@@ -430,8 +435,8 @@ io.on("connect", (socket) => {
     // io.in(liveRoom).emit("gift", receiverUser);
   });
   socket.on("addView", async (data) => {
-    console.log("addView", data);
-    console.log("LiveRoom addView ", liveRoom);
+    // console.log("addView", data);
+    // console.log("LiveRoom addView ", liveRoom);
     const liveStreamingHistory = await LiveStreamingHistory.findById(
       data.liveStreamingId
     );
@@ -441,7 +446,7 @@ io.on("connect", (socket) => {
       "liveUser Id ------------ ID------- in ad view",
       data.liveUserMongoId
     );
-    console.log("liveUser in ad view", liveUser);
+    // console.log("liveUser in ad view", liveUser);
 
     if (liveUser) {
       const joinedUserExist = await LiveUser.findOne({
@@ -458,6 +463,7 @@ io.on("connect", (socket) => {
               "view.$.image": data.image,
               "view.$.isVIP": data.isVIP,
               "view.$.isAdd": true,
+              "view.$.username":data.username
             },
           }
         );
@@ -474,17 +480,18 @@ io.on("connect", (socket) => {
     }
 
     const _liveUser = await LiveUser.findById(data.liveUserMongoId);
+    console.log("live user data",_liveUser)
 
     if (liveStreamingHistory && _liveUser) {
       liveStreamingHistory.user = _liveUser.view.length;
       liveStreamingHistory.endTime = new Date().toLocaleString();
       await liveStreamingHistory.save();
-      // io.in(liveRoom).emit("view", _liveUser.view);
+      io.in(liveRoom).emit("view", _liveUser.view);
     }
   });
   socket.on("lessView", async (data) => {
-    console.log("lessView", data);
-    console.log("LiveRoom lessView ", liveRoom);
+    // console.log("lessView", data);
+    // console.log("LiveRoom lessView ", liveRoom);
     const liveStreamingHistory = await LiveStreamingHistory.findById(
       data.liveStreamingId
     );
@@ -502,10 +509,13 @@ io.on("connect", (socket) => {
       _id: data.liveUserMongoId,
       "view.isAdd": true,
     });
+    console.log("fdoigoidshgoierhg",liveUser)
 
+    //todo caleString not defined surver crashed 0
     if (liveStreamingHistory) {
-      liveStreamingHistory.endTime = new Date().toLocaleString();
+      // caleString();
       await liveStreamingHistory.save();
+      liveStreamingHistory.endTime = new Date().toLo
     }
     await io.in(liveRoom).emit("view", liveUser ? liveUser.view : []);
   });
@@ -527,14 +537,14 @@ io.on("connect", (socket) => {
     io.in(liveRoom).emit("getUserProfile", userData);
   });
   socket.on("blockedList", (data) => {
-    console.log("blocked data", data);
-    console.log("blocked liveRoom", liveRoom);
+    // console.log("blocked data", data);
+    // console.log("blocked liveRoom", liveRoom);
     io.in(liveRoom).emit("blockedList", data);
   });
 
   socket.on("pkRequest", async (data) => {
-    console.log("pkRequest", data);
-    console.log("pkRequest guestHostId", data.GUEST_HOST_ID);
+    // console.log("pkRequest", data);
+    // console.log("pkRequest guestHostId", data.GUEST_HOST_ID);
     io.in(data.GUEST_HOST_ID).emit("pkRequest", data);
   });
 
@@ -542,15 +552,15 @@ io.on("connect", (socket) => {
 
   // inviteFriend  event crate
   socket.on("inviteFriend", async (data) => {
-    console.log("inviteFriend", data);
-    console.log("inviteFriend  mainHostId", data.MAIN_HOST_ID);
+    // console.log("inviteFriend", data);
+    // console.log("inviteFriend  mainHostId", data.MAIN_HOST_ID);
     io.in(data.MAIN_HOST_ID).emit("inviteFriend", data);
   });
 
   socket.on("inviteFriendCallback", async (data) => {
     // console.log("inviteFriendCallback", data);
     // console.log("inviteFriendCallback  mainHostId", data.MAIN_HOST_ID);
-    console.log("hello", data)
+    // console.log("hello", data)
     io.in(data.MAIN_HOST_ID).emit("inviteFriendCallback",  data);
   });
 
@@ -574,8 +584,8 @@ io.on("connect", (socket) => {
    // create sessionInitialized
 
   socket.on("sessionInitialized", async (data) => {
-    console.log("sessionInitialized", data);
-    console.log("sessionInitialized mainHostId", data.MAIN_HOST_ID);
+    // console.log("sessionInitialized", data);
+    // console.log("sessionInitialized mainHostId", data.MAIN_HOST_ID);
     io.in(data.MAIN_HOST_ID).emit("sessionInitialized", data);
   });
 
@@ -583,13 +593,13 @@ io.on("connect", (socket) => {
 
   // create chat
   socket.on("chat", async (data) => {
-    console.log("data in chat", data);
+    // console.log("data in chat", data);
     if (data.messageType === "message") {
       const chatTopic = await ChatTopic.findById(data.topic).populate(
         "receiverUser senderUser"
       );
 
-      console.log("chatTopi in Chat", chatTopic);
+      // console.log("chatTopi in Chat", chatTopic);
 
       if (chatTopic) {
         const chat = new Chat();
