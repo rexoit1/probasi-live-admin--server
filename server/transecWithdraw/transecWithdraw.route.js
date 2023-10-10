@@ -1,6 +1,6 @@
 //express
 const express = require("express");
-const route = express.Router();
+const router = express.Router();
 
 //authentication access
 const checkAccessWithKey = require("../../checkAccess");
@@ -10,20 +10,34 @@ const TransecWithdrawController = require("./transecWithdraw.controller");
 
 
 //Get getTransecWithdraws
-route.get("/getTransecWithdraws", checkAccessWithKey(), TransecWithdrawController.getTransecWithdraws);
-route.get("/getTransecWithdraw", checkAccessWithKey(), TransecWithdrawController.getTransecWithdraw);
+// route.get("/getTransecWithdraws", checkAccessWithKey(), TransecWithdrawController.getTransecWithdraws);
+// route.get("/getTransecWithdraw/:transecWithdrawId", checkAccessWithKey(), TransecWithdrawController.getTransecWithdraw);
 
-//create getTransecWithdraw
-route.post(
-  "/createTransecWithdraw",
-  checkAccessWithKey(),
-  TransecWithdrawController.createTransecWithdraw
-);
+// //create getTransecWithdraw
+// route.post(
+//   "/createTransecWithdraw",
+//   checkAccessWithKey(),
+//   TransecWithdrawController.createTransecWithdraw
+// );
 
-// delete transecWithdraws
-route.delete("/updateTransecWithdraw", checkAccessWithKey(), TransecWithdrawController.updateTransecWithdraw);
+// // delete transecWithdraws
+// route.delete("/updateTransecWithdraw/:transecWithdrawId", checkAccessWithKey(), TransecWithdrawController.updateTransecWithdraw);
 
-route.put("/deleteTransecWithdraw", checkAccessWithKey(), TransecWithdrawController.deleteTransecWithdraw);
+// route.put("/deleteTransecWithdraw/:transecWithdrawId", checkAccessWithKey(), TransecWithdrawController.deleteTransecWithdraw);
+
+ router.route('/')
+ .get( //checkAccessWithKey(), 
+        TransecWithdrawController.getTransecWithdraws)
+ .post(//   checkAccessWithKey(),
+        TransecWithdrawController.createTransecWithdraw);
+
+  router.route('/:transecWithdrawId')
+  .get( //checkAccessWithKey(), 
+          TransecWithdrawController.getTransecWithdraw)
+  .put(//   checkAccessWithKey(),
+          TransecWithdrawController.updateTransecWithdraw)
+  .delete(//   checkAccessWithKey(),
+        TransecWithdrawController.deleteTransecWithdraw);
 
 
-module.exports = route;
+module.exports = router;

@@ -6,6 +6,7 @@ const Wallet = require("../wallet/wallet.model");
 const Level = require("../level/level.model");
 const LiveUser = require("../liveUser/liveUser.model");
 const fs = require("fs");
+const bcrypt = require("bcryptjs");
 const config = require("../../config");
 const moment = require("moment");
 const arrayShuffle = require("shuffle-array");
@@ -929,3 +930,67 @@ exports.IdGenerate = async (req, res) => {
       .json({ status: false, error: error.message || "Server Error" });
   }
 };
+
+exports.vipStatusChange = async (req,res)=>{
+  try{
+    const {userId} = req.query
+    const user = await User.findById(userId);
+    if (!user)
+      return res
+        .status(200)
+        .json({ status: false, message: "User does not Exist!!" });
+    
+    req.body.isVIP? user.isVIP = req.body.isVIP : '';
+
+    user.save()
+    return res.status(200).json({ status: true, message: "Success!" });
+  }catch(e){
+    console.log(error);
+    return res
+      .status(500)
+      .json({ status: false, error: error.message || "Server Error" });
+  }
+}
+
+exports.userEmailUpdate = async (req,res)=>{
+  try{
+    const {userId} = req.query
+    const user = await User.findById(userId);
+    if (!user)
+      return res
+        .status(200)
+        .json({ status: false, message: "User does not Exist!!" });
+    
+    req.body.email? user.email = req.body.email : '';
+
+    user.save()
+    return res.status(200).json({ status: true, message: "Success!" });
+  }catch(error){
+    console.log(error);
+    return res
+      .status(500)
+      .json({ status: false, error: error.message || "Server Error" });
+  }
+}
+
+exports.userPasswordUpdate = async (req,res)=>{
+  try{
+    const {userId} = req.query
+    const user = await User.findById(userId);
+    if (!user)
+      return res
+        .status(200)
+        .json({ status: false, message: "User does not Exist!!" });
+
+    const hash = bcrypt.hashSync(req.body.password, 10);    
+    req.body.password? user.password = hash : '';
+
+    user.save()
+    return res.status(200).json({ status: true, message: "Success!" });
+  }catch(error){
+    console.log(error);
+    return res
+      .status(500)
+      .json({ status: false, error: error.message || "Server Error" });
+  }
+}
