@@ -435,7 +435,7 @@ io.on("connect", (socket) => {
     // io.in(liveRoom).emit("gift", receiverUser);
   });
   socket.on("addView", async (data) => {
-    // console.log("addView", data);
+    console.log("addView", data);
     // console.log("LiveRoom addView ", liveRoom);
     const liveStreamingHistory = await LiveStreamingHistory.findById(
       data.liveStreamingId
@@ -463,7 +463,8 @@ io.on("connect", (socket) => {
               "view.$.image": data.image,
               "view.$.isVIP": data.isVIP,
               "view.$.isAdd": true,
-              "view.$.username":data.username
+              "view.$.userName":data.userName,
+              "view.$.userLevel":data.userLevel
             },
           }
         );
@@ -472,6 +473,8 @@ io.on("connect", (socket) => {
           userId: data.userId,
           image: data.image,
           isVIP: data.isVIP,
+          userName:data.userName,
+          userLevel:data.userLevel,
           isAdd: true,
         });
 
