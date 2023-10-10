@@ -25,7 +25,8 @@ exports.getTransecPendings = async (req, res) => {
 
 exports.getTransecPending = async (req, res) => {
   try {
-    const transecPending = await TransecPending.findById(req.query.transectionId)
+    const {transectionId} = req.params
+    const transecPending = await TransecPending.findById(transectionId)
       // .skip(req.query.start ? parseInt(req.query.start) : 0)
       // .limit(req.query.limit ? parseInt(req.query.limit) : 20);
 
@@ -43,7 +44,6 @@ exports.getTransecPending = async (req, res) => {
 // create TransecPending
 exports.createTransecPending = async (req, res) => {
   try {
-    console.log('request',req.body,req.file)
     if (
       !req.body.transectionId ||
       !req.body.totalAmount ||
@@ -80,7 +80,8 @@ exports.createTransecPending = async (req, res) => {
 //delete message
 exports.deleteTransecPending = async (req, res, next) => {
   try {
-    const transecPending = await TransecPending.findById(req.query.transectionId);
+    const {transectionId} = req.params
+    const transecPending = await TransecPending.findById(transectionId);
 
     if (!transecPending)
       return res
@@ -100,7 +101,8 @@ exports.deleteTransecPending = async (req, res, next) => {
 
 exports.updateTransecPending = async (req, res, next) => {
   try {
-    const transecPending = await TransecPending.findById(req.query.transectionId);
+    const {transectionId} = req.params
+    const transecPending = await TransecPending.findById(transectionId);
 
     if (!TransecPending)
       return res
@@ -112,7 +114,7 @@ exports.updateTransecPending = async (req, res, next) => {
         req.body.payment_ss ? transecPending.payment_ss = req.body.payment_ss : '';
         req.body.status ? transecPending.status = req.body.status : '';
 
-    await TransecPending.save();
+    await transecPending.save();
 
     return res.status(200).json({ status: true, message: "Success!" });
   } catch (error) {

@@ -22,7 +22,9 @@ const upload = multer({
 // route.get("/getTransecPending", checkAccessWithKey(), TransecPendingController.getTransecPending);
 
 route.get("/getTransecPendings", TransecPendingController.getTransecPendings);
-route.get("/getTransecPending", checkAccessWithKey(), TransecPendingController.getTransecPending);
+route.get("/getTransecPending/:transectionId", 
+          // checkAccessWithKey(), 
+          TransecPendingController.getTransecPending);
 
 //create chat-topic
 route.post(
@@ -33,9 +35,13 @@ route.post(
 );
 
 // delete message
-route.delete("/updateTransecPending", checkAccessWithKey(), TransecPendingController.updateTransecPending);
+route.put("/updateTransecPending/:transectionId", 
+            //checkAccessWithKey(), 
+            TransecPendingController.updateTransecPending);
 
-route.put("/deleteTransecPending", checkAccessWithKey(), TransecPendingController.deleteTransecPending);
+route.delete("/deleteTransecPending/:transectionId", 
+              //checkAccessWithKey(), 
+              TransecPendingController.deleteTransecPending);
 
 
 module.exports = route;

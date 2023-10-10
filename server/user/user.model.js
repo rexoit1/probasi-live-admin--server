@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
     gender: { type: String, default: "" },
     age: { type: Number, default: 0 },
     email: String,
+    password: {type:String},
     image: { type: String, default: "" },
     country: String,
     ip: String,

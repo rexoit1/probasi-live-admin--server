@@ -76,5 +76,20 @@ router.patch(
   UserController.blockUnblock
 );
 
+router.patch("/user/vipStatusChange",
+//checkAccessWithKey(),
+  UserController.vipStatusChange
+)
+
+router.patch("/user/userEmailUpdate",
+//checkAccessWithKey(),
+  UserController.userEmailUpdate
+)
+
+router.patch("/user/userPasswordUpdate",
+//checkAccessWithKey(),
+  UserController.userPasswordUpdate
+)
+
 
 module.exports = router;
