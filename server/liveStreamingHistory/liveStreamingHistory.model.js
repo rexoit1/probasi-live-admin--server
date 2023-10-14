@@ -9,6 +9,7 @@ const liveStreamingHistorySchema = new mongoose.Schema(
     comments: { type: Number, default: 0 },
     fans: { type: Number, default: 0 }, // how many followers increased during live streaming
     rCoin: { type: Number, default: 0 }, // how many rCoin live user earned
+    giftFromUser: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     startTime: String,
     endTime: String
   },
