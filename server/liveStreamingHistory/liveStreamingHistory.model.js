@@ -6,9 +6,15 @@ const liveStreamingHistorySchema = new mongoose.Schema(
     duration: { type: String, default: "00:00:00" },
     user: { type: Number, default: 0 }, // how many user joined the live streaming [user count]
     gifts: { type: Number, default: 0 }, // how many gifts user received
-    comments: { type: Number, default: 0 },
+    comments: { type: Number, default: 0},
     fans: { type: Number, default: 0 }, // how many followers increased during live streaming
     rCoin: { type: Number, default: 0 }, // how many rCoin live user earned
+    giftFromUser: [{
+        userName:String, 
+        rCoin:{ type: Number, default: 0 },
+        giftFromUserId: String,
+        liveStreamingId: String
+      }],
     startTime: String,
     endTime: String
   },
@@ -17,6 +23,8 @@ const liveStreamingHistorySchema = new mongoose.Schema(
     versionKey: false
   }
 );
+
+// { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 
 module.exports = mongoose.model(
   "LiveStreamingHistory",

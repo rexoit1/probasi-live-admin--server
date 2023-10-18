@@ -340,11 +340,11 @@ io.on("connect", (socket) => {
   });
   // live user send gift during live streaming [put entry on outgoing collectioen]
   socket.on("liveUserGift", async (data) => {
-    // console.log("liveUserGift", data);
+    console.log("liveUserGift", data);
     // console.log("LiveRoom liveUserGift ", liveRoom);
 
-    const user = await User.findById(data.userId).populate("level");
-    // console.log("liveUserGift user", user); 
+    const user = await User.findById(data.senderUserId).populate("level");
+    console.log("liveUserGift user", user); 
     if (user && data.coin <= user.diamond) {
       user.diamond -= data.coin;
       user.spentCoin += data.coin;
@@ -503,14 +503,14 @@ io.on("connect", (socket) => {
       { _id: data.liveUserMongoId, "view.userId": data.userId },
       {
         $set: {
-          "view.$.isAdd": true
+          "view.$.isAdd": false
         },
       }
     );
 
     const liveUser = await LiveUser.findOne({
       _id: data.liveUserMongoId,
-      "view.isAdd": true,
+      "view.isAdd": false,
     });
     console.log("fdoigoidshgoierhg",liveUser)
 

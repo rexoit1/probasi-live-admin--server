@@ -6,6 +6,17 @@ const LiveStreamingHistoryController = require("./liveStreamingHistory.controlle
 var checkAccessWithKey = require("../../checkAccess");
 
 //start streaming
-router.get("/getStreamingSummary", checkAccessWithKey(), LiveStreamingHistoryController.getStreamingSummary);
+router.get("/getStreamingSummary", 
+ //checkAccessWithKey(), 
+LiveStreamingHistoryController.getStreamingSummary);
+
+
+router.patch("/updateGiftFromUser",LiveStreamingHistoryController.updateGiftFromUser)
+
+router.get("/getAllStreamingSummary", 
+ checkAccessWithKey(), 
+LiveStreamingHistoryController.getAllStreamingSummary);
+
+
 
 module.exports = router;
