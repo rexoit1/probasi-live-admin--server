@@ -73,6 +73,14 @@ exports.update = async (req, res) => {
     setting.googlePlayKey = req.body.googlePlayKey
       ? req.body.googlePlayKey
       : setting.googlePlayKey;
+
+      setting.paypalClientsId = req.body.paypalClientsId
+      ? req.body.paypalClientsId
+      : setting.paypalClientsId;
+    setting.paypalKey = req.body.paypalKey
+      ? req.body.paypalKey
+      : setting.paypalKey;
+
     setting.bkashPersonal = req.body.bkashPersonal
       ? req.body.bkashPersonal
       : setting.bkashPersonal;

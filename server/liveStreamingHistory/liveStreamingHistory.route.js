@@ -14,7 +14,7 @@ LiveStreamingHistoryController.getStreamingSummary);
 router.patch("/updateGiftFromUser",LiveStreamingHistoryController.updateGiftFromUser)
 
 router.get("/getAllStreamingSummary", 
- //checkAccessWithKey(), 
+ checkAccessWithKey(), 
 LiveStreamingHistoryController.getAllStreamingSummary);
 
 

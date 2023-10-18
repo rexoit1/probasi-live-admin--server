@@ -13,6 +13,8 @@ const settingSchema = new mongoose.Schema(
     callCharge: { type: Number, default: 10 },
     googlePlayEmail: { type: String, default: "GOOGLE PLAY EMAIL" },
     googlePlayKey: { type: String, default: "GOOGLE PLAY KEY" },
+    paypalClientsId: { type: String, default: "AdZy27XSOjQt9zuM3sShHAOwjeSwAvKM54iuqGrw-arLTu3L9Yt64kaxXfLXQhszKrvTIQX918-lE__U" },
+    paypalKey: { type: String, default: "EM3CPm_85dvlc_50IVJVkdinp8ZsL5COtXmGsSfaey4iw4Mw4eChdLEIH4I8686ZJAss8eLwHgoJzfAY"},
     bkashPersonal: { type: String },
     bkashAgent: { type: String },
     googlePlaySwitch: { type: Boolean, default: false },

@@ -8,9 +8,7 @@ const ObjectId = mongoose.Types.ObjectId;
 // get streaming summary
 exports.getStreamingSummary = async (req, res) => {
   try {
-    const liveStreamingHistory = await LiveStreamingHistory.findById(
-      req.query.liveStreamingId
-    );
+    const liveStreamingHistory = await LiveStreamingHistory.findById(req.query.liveStreamingId).populate(['giftFromUser']);
 
     if (!liveStreamingHistory)
       return res
@@ -62,6 +60,7 @@ exports.getStreamingSummary = async (req, res) => {
 
 
 exports.updateGiftFromUser = async (req, res) => {
+  const giftFromUser = req.body;
   try {
     const liveStreamingHistory = await LiveStreamingHistory.find({_id:ObjectId(req.body.liveStreamingId)});
 
@@ -74,21 +73,24 @@ exports.updateGiftFromUser = async (req, res) => {
 
     let {giftFromUserId} = req.body
     const user = await User.findById(giftFromUserId);
+    // console.log("eryhrtfgwe",user)
     if (!user) {
       return res
         .status(200)
         .json({ status: false, message: "User does not Exist!" });
     }
 
+    
 
     const userid = ObjectId(giftFromUserId);
     const filter = { _id: ObjectId(req.body.liveStreamingId) };
 
     const updatedLiveStreamingHistory = await LiveStreamingHistory.findOneAndUpdate(
       filter,
-      { $push: { giftFromUser: userid } },
+      { $push: { giftFromUser: giftFromUser } },
       { new: true }
     ).exec();
+    console.log("oigh8sre90yfg",updatedLiveStreamingHistory)
 
     return res.status(200).json({
       status: true,
@@ -105,10 +107,34 @@ exports.updateGiftFromUser = async (req, res) => {
 
 
 exports.getAllStreamingSummary = async (req, res) => {
-  try {
-    const liveStreamingHistory = await LiveStreamingHistory.find();
 
-    if (!liveStreamingHistory)
+  try {
+    // const liveStreamingHistory = await LiveStreamingHistory.findById(req?.query?.liveStreamingId)
+    // .populate(['giftFromUser']);
+
+    const liveHistory = await LiveStreamingHistory.find(
+      {
+        userId : req?.query?.liveStreamingId,
+        gifts : { $ne: 0 }
+      }
+
+    ).populate(['giftFromUser'])
+    
+    // const liveExpendData = liveHistory?.giftFromUser.populate('name','username')
+    console.log('liveHistory: '+ liveHistory);
+
+    // if (liveHistory?.giftFromUser) {
+    //   // const liveExpendData = liveHistory?.giftFromUser('name','username')
+
+    // console.log('liveHistory: '+ liveExpendData);
+    // }
+
+
+    // const respo = json({name:user.name, userID: user.username})
+    // console.log(respo)
+ 
+
+    if (!liveHistory)
       return res
         .status(200)
         .json({ status: false, message: "Live Streaming not Found!!" });
@@ -116,7 +142,7 @@ exports.getAllStreamingSummary = async (req, res) => {
     return res.status(200).json({
       status: true,
       message: "Success!!",
-      liveStreamingHistory,
+      liveHistory,
     });
   } catch (error) {
     console.log(error);
