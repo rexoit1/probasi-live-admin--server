@@ -239,8 +239,9 @@ app.get("/*", function (req, res) {
 });
 
 //mongodb connection
+// @128.199.202.228:27017/${config.MONGODB_DB_NAME}?authSource=admin
 mongoose.connect(
- `mongodb://${config.MONGODB_USERNAME}:${config.MONGODB_PASSWORD}@128.199.202.228:27017/${config.MONGODB_DB_NAME}?authSource=admin`, // YOUR_MONGODB_CONNECTION_STRING
+ `mongodb+srv://${config.MONGODB_USERNAME}:${config.MONGODB_PASSWORD}@probashi.sn7edry.mongodb.net/?retryWrites=true&w=majority`, // YOUR_MONGODB_CONNECTION_STRING
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
