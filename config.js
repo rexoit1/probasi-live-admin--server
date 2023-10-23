@@ -18,7 +18,7 @@ module.exports = {
   JWT_SECRET: "KrSsyDNUZL",
 
   // SERVER_PATH: "https://adminpanel.probashi.live/", 
-  SERVER_PATH: "http://143.198.88.206:5000", // YOUR_BASE_URL
+  SERVER_PATH: "http://139.59.217.94:5000", // YOUR_BASE_URL
 
   // firebase server key for notification
   SERVER_KEY:
