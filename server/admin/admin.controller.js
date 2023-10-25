@@ -208,6 +208,7 @@ exports.update = async (req, res) => {
 
 //update admin profile image
 exports.updateImage = async (req, res) => {
+  console.log(req.file)
   try {
     const admin = await Admin.findById(req.admin._id);
 
