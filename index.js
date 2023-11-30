@@ -325,14 +325,9 @@ io.on("connect", (socket) => {
     io.in(liveRoom).emit("gif", data);
   });
   socket.on("comment", async (data) => {
-    // const data = JSON.parse(data_);
-    // console.log("comment", data);
-    // console.log("LiveRoom comment ", liveRoom);
     const liveStreamingHistory = await LiveStreamingHistory.findById(
       data.liveStreamingId
     );
-
-    // console.log("liveStreamingHistory", liveStreamingHistory);
     if (liveStreamingHistory) {
       liveStreamingHistory.comments += 1;
       await liveStreamingHistory.save();
