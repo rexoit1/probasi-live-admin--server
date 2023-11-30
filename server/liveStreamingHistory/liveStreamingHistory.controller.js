@@ -114,7 +114,7 @@ exports.getAllStreamingSummary = async (req, res) => {
 
     const liveHistory = await LiveStreamingHistory.find(
       {
-        userId : req?.query?.liveStreamingId,
+        userId : req.query.liveStreamingId,
         gifts : { $ne: 0 }
       }
 
