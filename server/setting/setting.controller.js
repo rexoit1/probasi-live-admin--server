@@ -43,11 +43,11 @@ exports.update = async (req, res) => {
         .status(200)
         .json({ status: false, message: "Setting data does not Exist!" });
 
-    // setting.referralBonus = req.body?.referralBonus
-    //   ? req.body?.referralBonus
-    //   : setting.referralBonus;
-    setting.agoraKey = req.body?.agoraKey
-      ? req.body?.agoraKey
+    setting.referralBonus = req.body.referralBonus
+      ? req.body.referralBonus
+      : setting.referralBonus;
+    setting.agoraKey = req.body.agoraKey
+      ? req.body.agoraKey
       : setting.agoraKey;
     setting.agoraCertificate = req.body.agoraCertificate
       ? req.body.agoraCertificate
