@@ -438,10 +438,6 @@ io.on("connect", (socket) => {
     );
     const liveUser = await LiveUser.findById(data.liveUserMongoId);
 
-    console.log(
-      "liveUser Id ------------ ID------- in ad view",
-      data.liveUserMongoId
-    );
     // console.log("liveUser in ad view", liveUser);
 
     if (liveUser) {
@@ -569,6 +565,7 @@ io.on("connect", (socket) => {
     // console.log("pkAnswer mainHostId", data.MAIN_HOST_ID);
     io.in(data.MAIN_HOST_ID).emit("requestToJoin", data);
   });
+
   socket.on("pkAnswer", async (data) => {
     // console.log("pkAnswer", data);
     // console.log("pkAnswer mainHostId", data.MAIN_HOST_ID);
