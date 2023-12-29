@@ -23,6 +23,7 @@ exports.index = async (req, res) => {
       matchQuery = {
         $or: [
           { username: { $regex: req.query.search, $options: "i" } },
+          { uniqueId: { $regex: req.query.search, $options: "i" } },
           { gender: { $regex: req.query.search, $options: "i" } },
           { country: { $regex: req.query.search, $options: "i" } },
         ],
@@ -147,6 +148,13 @@ exports.getPopularUser = async (req, res) => {
 // user signup and login
 exports.loginSignup = async (req, res) => {
   try {
+
+    if(req.body.name.length > 20) {
+      return res
+        .status(200)
+        .json({ status: false, message: "The name must be less than 20 characters!", user: {} });
+    }
+
     if (!req.body.identity || !req.body.email)
       return res
         .status(200)
@@ -332,6 +340,13 @@ exports.getProfile = async (req, res) => {
 // update profile of user
 exports.updateProfile = async (req, res) => {
   try {
+
+    if(req.body.name.length > 20) {
+      return res
+        .status(200)
+        .json({ status: false, message: "The name must be less than 20 characters!", user: {} });
+    }
+    
     console.log("edit body", req.body);
     const user = await User.findById(req.body.userId).populate("level");
 

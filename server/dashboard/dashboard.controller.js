@@ -66,7 +66,30 @@ exports.dashboard = async (req, res) => {
       { $group: { _id: null, dollar: { $sum: "$dollar" }, rupee: { $sum: "$rupee" } } }
     ]);
 
+
+    let data =  await User.aggregate([
+      {
+    $group: {
+        _id: null,
+         totalrCoin: {
+            $sum: "$rCoin"
+        },
+         totalDiamond: {
+            $sum: "$diamond"
+        },
+         totalWithdrawalRcoin: {
+            $sum: "$withdrawalRcoin"
+        },
+         totalSpentCoin: {
+            $sum: "$spentCoin"
+        },
+      }
+    }
+  ]);
+  let sumData = data[0]
+
     const dashboard = {
+      sumData,
       totalUser,
       activeUser,
       vipUser,
