@@ -955,8 +955,8 @@ exports.vipStatusChange = async (req,res)=>{
         .status(200)
         .json({ status: false, message: "User does not Exist!!" });
     
-    req.body.isVIP? user.isVIP = req.body.isVIP : '';
-
+   // req.body.isVIP? user.isVIP = req.body.isVIP : '';
+    user.isVIP = req.body?.isVIP ? req.body.isVIP : false;   
     user.save()
     return res.status(200).json({ status: true, message: "Success!" });
   }catch(e){
